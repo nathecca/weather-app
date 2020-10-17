@@ -3,14 +3,14 @@ import {getWeather} from '../helpers/getWeather'
 
 export const useFetchWeather = (city) => {
   const [state, setState] = useState({
-    data: [],
-    loading: true,
+    data: null,
+    isLoaded: false,
     iError: false
   })
 
   useEffect(() => {
     setState({
-      loading: true,
+      isLoaded: false,
       data: null,
       isError: false
     });
@@ -18,14 +18,14 @@ export const useFetchWeather = (city) => {
     .then((data)=>{
       setState({
         data: data,
-        loading: false,
+        isLoaded: true,
         isError: false
       });
     })
     .catch(error => {
       setState({
         data: null,
-        loading: false,
+        isLoaded: true,
         isError: true
       });
     });
