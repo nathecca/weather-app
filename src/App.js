@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
-import { Container,Row,Col,FormControl, InputGroup,Button, Jumbotron } from 'react-bootstrap';
-//import {CONFIG} from './config';
-import {getWeather} from './helpers/getWeather';
-import { useFetchWeather } from './hooks/useFetchWeather';
+import { Container,Row,Col,FormControl, InputGroup,Button } from 'react-bootstrap';
+import { Jumboweather } from './components/Jumboweather';
 
 export const App = () => {
 
   const [city, setCity] = useState("Guayaquil")
 
-  const {data , loading} = useFetchWeather(city);
+  const [show, setShow] = useState(false)
 
   const handleClick = (e)=>{
-    console.log(city)
-    getWeather(city).then((data)=>{
-      console.log(data);
-    });
+    setShow(true)
   }
 
   const handleChange = (e)=>{
     setCity(e.target.value)
+    setShow(false)
   }
   
-
   return (
     <Container className="p-5">
       <Row>
@@ -39,11 +34,7 @@ export const App = () => {
       </Row>
       <Row>
         <Col xs={12}>
-        <Jumbotron>
-          <p><strong>Clima:</strong> {data.weather}</p>
-          <p><strong>Temperatura:</strong> {data.temp}</p>
-          <p><strong>Humedad:</strong> {data.humidity}</p>
-        </Jumbotron>
+        {show && <Jumboweather city={city} />}
         </Col>
       </Row>
 
