@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { Container,Row,Col,FormControl, InputGroup,Button, Spinner } from 'react-bootstrap';
+import React, { useCallback, useState } from 'react';
+import { Container,Row,Col, Spinner } from 'react-bootstrap';
 import { useFetchWeather } from './hooks/useFetchWeather';
 import { Jumboweather } from './components/Jumboweather';
+import Form from './components/Form';
 
 export const App = () => {
 
   const [city, setCity] = useState("Guayaquil");
   const [finalCity, setFinalCity] = useState("Guayaquil");
 
-  const {data , loading, isError} = useFetchWeather(finalCity);
+  const {data , isLoaded, isError} = useFetchWeather(finalCity);
 
-  const handleClick = (e)=>{
+  const handleClick = useCallback((e)=>{
     e.preventDefault();
     setFinalCity(city);
-  }
+  }, [city]);
 
-  const handleChange = (e)=>{
+  const handleChange = useCallback((e)=>{
     setCity(e.target.value)
-  }
+  }, []);
 
   const style = { position: "fixed", top: "30%", left: "50%" };
   let output;
-  if(loading) {
+  if(!isLoaded) {
     output = <Spinner style={style} animation="border" />
   } else {
     if(isError) {
@@ -38,16 +39,8 @@ export const App = () => {
   return (
     <Container className="p-5">
       <Row>
-        <Col xs={11}>
-          <InputGroup size="sm" className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-sm">Ciudad</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" value={city} onChange={handleChange} />
-          </InputGroup>
-        </Col>
-        <Col xs={1}>
-          <Button variant="primary" onClick={handleClick}>Clima</Button>
+        <Col xs={12}>
+          <Form city={city} handleChange={handleChange} handleClick={handleClick} />
         </Col>
       </Row>
       {output}
