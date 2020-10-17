@@ -2,26 +2,25 @@ import React, { useState } from 'react';
 import { Container,Row,Col,FormControl, InputGroup,Button, Jumbotron } from 'react-bootstrap';
 //import {CONFIG} from './config';
 import {getWeather} from './helpers/getWeather';
+import { useFetchWeather } from './hooks/useFetchWeather';
 
 export const App = () => {
 
-  const [city, setCity] = useState("")
+  const [city, setCity] = useState("Guayaquil")
+
+  const {data , loading} = useFetchWeather(city);
 
   const handleClick = (e)=>{
     console.log(city)
-    //getClima(city);
     getWeather(city).then((data)=>{
       console.log(data);
     });
-    
   }
+
   const handleChange = (e)=>{
     setCity(e.target.value)
   }
-  /*const getClima = (city)=>{
-    //const url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+CONFIG.api_key
-    //console.log(url);
-  }*/
+  
 
   return (
     <Container className="p-5">
@@ -41,7 +40,9 @@ export const App = () => {
       <Row>
         <Col xs={12}>
         <Jumbotron>
-          
+          <p><strong>Clima:</strong> {data.weather}</p>
+          <p><strong>Temperatura:</strong> {data.temp}</p>
+          <p><strong>Humedad:</strong> {data.humidity}</p>
         </Jumbotron>
         </Col>
       </Row>
