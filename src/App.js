@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container,Row,Col,FormControl, InputGroup,Button, Jumbotron, Spinner } from 'react-bootstrap';
-//import {CONFIG} from './config';
+import { Container,Row,Col,FormControl, InputGroup,Button, Spinner } from 'react-bootstrap';
 import { useFetchWeather } from './hooks/useFetchWeather';
+import { Jumboweather } from './components/Jumboweather';
 
 export const App = () => {
 
@@ -29,11 +29,7 @@ export const App = () => {
     } else {
       output = <Row>
                 <Col xs={12}>
-                <Jumbotron>
-                  <p><strong>Clima:</strong> {data.weather}</p>
-                  <p><strong>Temperatura:</strong> {data.temp}</p>
-                  <p><strong>Humedad:</strong> {data.humidity}</p>
-                </Jumbotron>
+                <Jumboweather data={data} />
                 </Col>
               </Row>;
     }
