@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { Container,Row,Col,FormControl, InputGroup,Button, Jumbotron } from 'react-bootstrap';
-import {CONFIG} from './config';
+//import {CONFIG} from './config';
+import {getWeather} from './helpers/getWeather';
 
 export const App = () => {
-  const [city, setCity] = useState("Guayaquil")
-  const handleClick = ()=>{
+
+  const [city, setCity] = useState("")
+
+  const handleClick = (e)=>{
     console.log(city)
-    getClima(city)
+    //getClima(city);
+    getWeather(city).then((data)=>{
+      console.log(data);
+    });
+    
   }
-  const handleChange = ()=>{
-    console.log(city)
+  const handleChange = (e)=>{
+    setCity(e.target.value)
   }
-  const getClima = (city)=>{
-    const url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+CONFIG.api_key
-    console.log(url);
-  }
+  /*const getClima = (city)=>{
+    //const url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+CONFIG.api_key
+    //console.log(url);
+  }*/
 
   return (
     <Container className="p-5">
